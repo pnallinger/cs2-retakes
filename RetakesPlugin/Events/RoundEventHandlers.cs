@@ -168,7 +168,7 @@ public class RoundEventHandlers
             }
 
             PlayerHelper.RemoveHelmetAndHeavyArmour(player);
-            player.RemoveWeapons();
+            PlayerHelper.StripWeapons(player);
 
             if (player == _planter && !_isAutoPlantEnabled)
             {

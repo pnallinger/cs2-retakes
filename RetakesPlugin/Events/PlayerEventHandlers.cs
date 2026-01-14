@@ -31,7 +31,7 @@ public class PlayerEventHandlers
 
         player.ForceTeamTime = 3600.0f;
 
-        // Add small delay to ensure player is fully connected
+        // Create a timer to do this as it would occasionally fire too early.
         _plugin.AddTimer(1.0f, () =>
         {
             if (!PlayerHelper.IsValid(player))
@@ -41,6 +41,39 @@ public class PlayerEventHandlers
 
             player.ChangeTeam(CsTeam.Spectator);
             player.ExecuteClientCommand("teammenu");
+
+            // Add player to queue system so they can join the next round
+            Logger.LogDebug("Queue", $"[{player.PlayerName}] Adding new player to queue via OnPlayerConnectFull");
+
+            // Check if player is already in queue system
+            var isInQueue = _gameManager.QueueManager.QueuePlayers.Contains(player);
+            var isInActivePlayers = _gameManager.QueueManager.ActivePlayers.Contains(player);
+
+            if (!isInQueue && !isInActivePlayers)
+            {
+                // Clear round teams to allow changes
+                _gameManager.QueueManager.ClearRoundTeams();
+
+                // Add player to queue system - use Terrorist as default team for queue entry
+                _gameManager.QueueManager.DebugQueues(true);
+                _gameManager.QueueManager.PlayerJoinedTeam(player, CsTeam.None, CsTeam.Terrorist);
+
+                if (_gameManager.QueueManager.ActivePlayers.Contains(player) && player.Team == CsTeam.Spectator)
+                {
+                    player.ChangeTeam(CsTeam.CounterTerrorist);
+                }
+
+                _gameManager.QueueManager.Update();
+                _gameManager.QueueManager.DebugQueues(false);
+
+                Logger.LogDebug("Queue", $"[{player.PlayerName}] Player added to queue. ActivePlayers count: {_gameManager.QueueManager.ActivePlayers.Count}");
+
+                if (_gameManager.QueueManager.ActivePlayers.Count == 1)
+                {
+                    Logger.LogDebug("Queue", $"[{player.PlayerName}] First active player - checking round done");
+                    GameRulesHelper.CheckRoundDone();
+                }
+            }
         });
 
         // Grant VIP to contributors

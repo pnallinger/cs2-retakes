@@ -227,4 +227,27 @@ public static class PlayerHelper
 
         return commandDict.TryGetValue(commandName, out var permission) && !string.IsNullOrWhiteSpace(permission) ? permission : defaultPermission;
     }
+    public static void StripWeapons(CCSPlayerController player)
+    {
+        if (!IsValid(player) || player.PlayerPawn.Value == null || player.PlayerPawn.Value.WeaponServices == null)
+        {
+            return;
+        }
+
+        // Create a list to store weapons to remove to avoid modifying collection while iterating
+        var weaponsToRemove = new List<CBasePlayerWeapon>();
+
+        foreach (var weapon in player.PlayerPawn.Value.WeaponServices.MyWeapons)
+        {
+            if (weapon != null && weapon.IsValid && weapon.Value != null && weapon.Value.IsValid)
+            {
+                weaponsToRemove.Add(weapon.Value);
+            }
+        }
+
+        foreach (var weapon in weaponsToRemove)
+        {
+            weapon.Remove();
+        }
+    }
 }
