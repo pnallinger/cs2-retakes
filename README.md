@@ -175,15 +175,3 @@ To disable slot priority and immunity features, set both arrays to empty:
 | !mapconfigs        |                    | Displays a list of available map configs.     | @css/root   |
 | !viewmapconfigs    |                    | Displays a list of available map configs (alias). | @css/root   |
 | !listmapconfigs    |                    | Displays a list of available map configs (alias). | @css/root   |
-
-## Stay up to date
-Subscribe to **release** notifications and stay up to date with the latest features and patches:
-
-![image](https://github.com/B3none/cs2-retakes/assets/24966460/e288a882-0f1f-4e8c-b67f-e4c066af34ea)
-
-## Credits
-This was inspired by the [CS:GO Retakes project](https://github.com/splewis/csgo-retakes) written by [splewis](https://github.com/splewis).
-
-## Server Hosting (Discounted)
-
-Looking for reliable server hosting? [Dathost](https://dathost.net/r/b3none/cs2-server-hosting) offers top-tier performance, easy server management, and excellent support, with servers available in multiple regions across the globe. Whether you're in North America, Europe, Asia, or anywhere else, [Dathost](https://dathost.net/r/b3none/cs2-server-hosting) has you covered. Use [this link](https://dathost.net/r/b3none/cs2-server-hosting) to get **30% off your first month**. Click [here]( https://dathost.net/r/b3none/cs2-server-hosting) to get started with the discount!
